@@ -53,7 +53,14 @@
         <div class="card w-100 mt-5">
             <div class="card-body">
                 <h5 class="card-title mb-2">Usuários cadastrados</h5>
-
+                <form class="row" method="post" th:action="@{/admin/usuarios/pesquisa}">
+                    <div class="col">
+                        <input type="text" class="form-control" name="busca_usuario" id="busca_usuario" placeholder="Ex: João">
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Buscar <i class="bi bi-search"></i></button>
+                    </div>
+                </form>
                 <table class="table w-100">
                     <thead>
                     <tr>
@@ -64,7 +71,20 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="usuario : ${usuarios}">
+                    <tr th:if="not ${busca_usuario}" th:each="usuario : ${usuarios}" >
+                        <td th:text="${usuario.nome}"></td>
+                        <td th:text="${usuario.email}"></td>
+                        <td th:text="${usuario.perfil.descricao}"></td>
+                        <td>
+                            <button th:if="${usuario.habilitado}" class="btn btn-danger" style="width: 9rem" data-bs-toggle="modal" th:data-bs-target="'#disableModal' + ${usuario.id}">
+                                Desabilitar <i class="bi bi-person-fill-x ms-2"></i>
+                            </button>
+                            <button th:if="not ${usuario.habilitado}" class="btn btn-success" style="width: 9rem" data-bs-toggle="modal" th:data-bs-target="'#enableModal' + ${usuario.id}">
+                                Habilitar <i class="bi bi-person-fill-check ms-2"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr th:unless="${busca_usuario}" th:each="usuario : ${busca_usuario}" >
                         <td th:text="${usuario.nome}"></td>
                         <td th:text="${usuario.email}"></td>
                         <td th:text="${usuario.perfil.descricao}"></td>
