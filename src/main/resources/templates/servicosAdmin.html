@@ -53,7 +53,14 @@
         <div class="card w-100 mt-5">
             <div class="card-body">
                 <h5 class="card-title mb-2">Serviços cadastrados</h5>
-
+                <form class="row" method="post" th:action="@{/admin/servicos/pesquisa}">
+                    <div class="col">
+                        <input type="text" class="form-control" name="busca_servico" id="busca_servico" placeholder="Ex: Limpeza">
+                    </div>
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Buscar <i class="bi bi-search"></i></button>
+                    </div>
+                </form>
                 <table class="table w-100">
                     <thead>
                     <tr>
@@ -65,7 +72,22 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="servico : ${servicos}">
+                    <tr  th:if="not ${busca_servico}" th:each="servico : ${servicos}">
+                        <td th:text="${servico.nome}"></td>
+                        <td th:text="${servico.descricao}"></td>
+                        <td th:text="${servico.categoria}"></td>
+                        <td>
+                            <a th:href="@{/admin/servicos/editar/{id}(id=${servico.id})}" class="btn btn-success" style="width: 7rem">
+                                Editar <i class="bi bi-pencil-fill ms-2"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger" style="width: 7rem" data-bs-toggle="modal" th:data-bs-target="'#deleteModal' + ${servico.id}">
+                                Excluir <i class="bi bi-trash-fill ms-2"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr th:unless="${busca_servico}" th:each="servico : ${busca_servico}">
                         <td th:text="${servico.nome}"></td>
                         <td th:text="${servico.descricao}"></td>
                         <td th:text="${servico.categoria}"></td>

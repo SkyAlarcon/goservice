@@ -1,6 +1,7 @@
 package com.soulcode.goserviceapp.service;
 
 import com.soulcode.goserviceapp.domain.Servico;
+import com.soulcode.goserviceapp.domain.Usuario;
 import com.soulcode.goserviceapp.repository.ServicoRepository;
 import com.soulcode.goserviceapp.service.exceptions.ServicoNaoEncontradoException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,10 @@ public class ServicoService {
         }
     }
 
+    public List<Servico> findByName(String nome) {
+        return servicoRepository.findByNome(nome);
+    }
+
     public Servico update(Servico servico){
         Servico updatedServico = this.findById(servico.getId());
         updatedServico.setNome(servico.getNome());
@@ -50,4 +55,5 @@ public class ServicoService {
     public List<Servico> findByPrestadorEmail(String email) {
         return servicoRepository.findByPrestadorEmail(email);
     }
+
 }
