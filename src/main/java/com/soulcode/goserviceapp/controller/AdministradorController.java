@@ -102,6 +102,20 @@ public class AdministradorController {
         return mv;
     }
 
+    @PostMapping(value = "/usuarios/pesquisa")
+    public ModelAndView searchUser(@RequestParam(name = "busca_usuario") String nome){
+        ModelAndView mv = new ModelAndView("usuariosAdmin");
+        try {
+        List<Usuario> busca_usuarios = usuarioService.findByName(nome);
+            mv.addObject("usuarios", busca_usuarios);
+        }catch (UsuarioNaoEncontradoException ex){
+            mv.addObject("errorMessage",  ex.getMessage());
+        }catch (Exception ex){
+            mv.addObject("errorMessage", "Erro ao Buscar Usuário");
+        }
+        return mv;
+    }
+
     @PostMapping(value = "/usuarios")
     public String createUser(Usuario usuario, RedirectAttributes attributes) {
         try {
