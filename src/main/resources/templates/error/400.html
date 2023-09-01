@@ -1,0 +1,32 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="fragments/layout :: layout(~{::title}, ~{::#content})">
+<head>
+    <title>400: Algo deu errado!</title>
+</head>
+<body>
+
+<div id="content">
+    <div id="organizer">
+        <div id="container">
+            <div class="errorContent">
+                <h1 style="font-size: 80px">
+                    500
+                </h1>
+                <h2>
+                    Sentimos muito, ocorreu algum erro!
+                </h2>
+                </br>
+                <h3>
+                    Deseja retornar?
+                </h3>
+                <a href="/" class="btn btn-primary"><i class="bi bi-arrow-left"></i> Página inicial</a>
+            </div>
+            <div class="errorLogo">
+                <img th:src="@{/assets/img/logos/4.png}" alt="Logo GoService" class="errorLogo">
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
