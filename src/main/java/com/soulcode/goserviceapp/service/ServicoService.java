@@ -39,6 +39,10 @@ public class ServicoService {
         }
     }
 
+    public List<Servico> findByName(String nome) {
+        return servicoRepository.findByNome(nome);
+    }
+
     public Servico update(Servico servico){
         Servico updatedServico = this.findById(servico.getId());
         updatedServico.setNome(servico.getNome());
@@ -50,4 +54,5 @@ public class ServicoService {
     public List<Servico> findByPrestadorEmail(String email) {
         return servicoRepository.findByPrestadorEmail(email);
     }
+
 }

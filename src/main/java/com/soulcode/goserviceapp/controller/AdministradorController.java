@@ -52,6 +52,20 @@ public class AdministradorController {
         return "redirect:/admin/servicos";
     }
 
+    @PostMapping(value = "/servicos/pesquisa")
+    public ModelAndView searchService(@RequestParam(name = "busca_servico") String nome){
+        ModelAndView mv = new ModelAndView("servicosAdmin");
+        try {
+            List<Servico> busca_servicos = servicoService.findByName(nome);
+            mv.addObject("servicos", busca_servicos);
+        }catch (ServicoNaoEncontradoException ex){
+            mv.addObject("errorMessage",  ex.getMessage());
+        }catch (Exception ex){
+            mv.addObject("errorMessage", "Erro ao Buscar Serviço");
+        }
+        return mv;
+    }
+
     @PostMapping(value = "/servicos/remover")
     public String removeService(@RequestParam(name = "servicoId") Long id, RedirectAttributes attributes) {
         try {
@@ -108,7 +122,7 @@ public class AdministradorController {
         try {
         List<Usuario> busca_usuarios = usuarioService.findByName(nome);
             mv.addObject("usuarios", busca_usuarios);
-        }catch (UsuarioNaoEncontradoException ex){
+        }catch (ServicoNaoEncontradoException ex){
             mv.addObject("errorMessage",  ex.getMessage());
         }catch (Exception ex){
             mv.addObject("errorMessage", "Erro ao Buscar Usuário");
