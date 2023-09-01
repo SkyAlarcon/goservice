@@ -18,6 +18,6 @@ public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> 
     List<Agendamento> findByPrestadorEmail(String email);
 
 
-    @Query(value = "SELECT * FROM agendamentos GROUP BY status_agendamento", nativeQuery = true)
-    List<Servico> findServicoByStatus(String status);
+    @Query(value = "SELECT COUNT(id) FROM agendamentos GROUP BY status_agendamento;", nativeQuery = true)
+    List<Agendamento> findAgendamentoByStatus();
 }
