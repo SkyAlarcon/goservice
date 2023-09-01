@@ -3,6 +3,7 @@ package com.soulcode.goserviceapp.controller;
 import com.soulcode.goserviceapp.domain.Agendamento;
 import com.soulcode.goserviceapp.domain.Prestador;
 import com.soulcode.goserviceapp.domain.Servico;
+import com.soulcode.goserviceapp.domain.Usuario;
 import com.soulcode.goserviceapp.service.AgendamentoService;
 import com.soulcode.goserviceapp.service.PrestadorService;
 import com.soulcode.goserviceapp.service.ServicoService;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -106,6 +108,20 @@ public class PrestadorController {
             mv.addObject("errorMessage", ex.getMessage());
         } catch (Exception ex) {
             mv.addObject("errorMessage", "Erro ao carregar dados de agendamentos.");
+        }
+        return mv;
+    }
+
+    @PostMapping(value = "/agenda/pesquisa")
+    public ModelAndView searchAgenda(@RequestParam(name = "data-inicio")String dataInicio, @RequestParam(name = "data-fim")String dataFim){
+        ModelAndView mv = new ModelAndView("agendaPrestador");
+        try {
+            List<Agendamento> busca_agendamento = agendamentoService.findByData(dataInicio, dataFim);
+            mv.addObject("agendamentos", busca_agendamento);
+        }catch (AgendamentoNaoEncontradoException ex){
+            mv.addObject("errorMessage",  ex.getMessage());
+        }catch (Exception ex){
+            mv.addObject("errorMessage", "Erro ao Buscar Agendamento(s)");
         }
         return mv;
     }

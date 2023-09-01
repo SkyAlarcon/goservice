@@ -5,10 +5,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
 public interface AgendamentoRepository extends JpaRepository<Agendamento, Long> {
+
+    @Query(value = "SELECT * FROM agendamentos a WHERE data BETWEEN ? AND ?", nativeQuery = true)
+    List<Agendamento> findByData(String dataInicio, String dataFim);
 
     @Query(value="SELECT a.* FROM agendamentos a JOIN usuarios u ON a.cliente_id = u.id WHERE u.email = ? ORDER BY data", nativeQuery = true)
     List<Agendamento> findByClienteEmail(String email);
