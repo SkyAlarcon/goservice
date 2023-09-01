@@ -2,7 +2,6 @@ package com.soulcode.goserviceapp.event;
 
 import com.soulcode.goserviceapp.domain.Usuario;
 import com.soulcode.goserviceapp.domain.UsuarioLog;
-import com.soulcode.goserviceapp.repository.UsuarioRepository;
 import com.soulcode.goserviceapp.service.UsuarioLogService;
 import com.soulcode.goserviceapp.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;

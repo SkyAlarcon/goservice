@@ -1,9 +1,6 @@
 package com.soulcode.goserviceapp.service;
 
-import com.soulcode.goserviceapp.domain.Agendamento;
-import com.soulcode.goserviceapp.domain.Cliente;
-import com.soulcode.goserviceapp.domain.Prestador;
-import com.soulcode.goserviceapp.domain.Servico;
+import com.soulcode.goserviceapp.domain.*;
 import com.soulcode.goserviceapp.domain.enums.StatusAgendamento;
 import com.soulcode.goserviceapp.repository.AgendamentoRepository;
 import com.soulcode.goserviceapp.service.exceptions.AgendamentoNaoEncontradoException;
@@ -33,6 +30,9 @@ public class AgendamentoService {
     @Autowired
     private PrestadorService prestadorService;
 
+    @Autowired
+    private AgendamentoLogService agendamentoLogService;
+
     public List<Agendamento> findByData(String dataInicio, String dataFim) {
         return agendamentoRepository.findByData(dataInicio, dataFim);
     }
@@ -56,7 +56,9 @@ public class AgendamentoService {
         agendamento.setData(data);
         agendamento.setHora(hora);
 
-        return agendamentoRepository.save(agendamento);
+        Agendamento agendamentoConcluido = agendamentoRepository.save(agendamento);
+        agendamentoLog(agendamentoConcluido);
+        return agendamentoConcluido;
     }
     @Cacheable(cacheNames = "redisCache")
     public List<Agendamento> findByCliente(Authentication authentication){
@@ -114,5 +116,14 @@ public class AgendamentoService {
             return;
         }
         throw new StatusAgendamentoImutavelException();
+    }
+
+    private void agendamentoLog(Agendamento agendamento){
+        try {
+            AgendamentoLog agendamentoLog = new AgendamentoLog(agendamento);
+            agendamentoLogService.create(agendamentoLog);
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 }
