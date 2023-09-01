@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,10 @@ public class AgendamentoService {
 
     @Autowired
     private PrestadorService prestadorService;
+
+    public List<Agendamento> findByData(String dataInicio, String dataFim) {
+        return agendamentoRepository.findByData(dataInicio, dataFim);
+    }
 
     public Agendamento findById(Long id){
         Optional<Agendamento> agendamento = agendamentoRepository.findById(id);
