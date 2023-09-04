@@ -42,6 +42,7 @@
                         <th>Status</th>
                         <th>Cancelar</th>
                         <th>Concluir</th>
+                        <th>Chat</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -61,6 +62,12 @@
                                 Concluir <i class="bi bi-check-square-fill ms-2"></i>
                             </button>
                         </td>
+                        <td>
+                            <a class="btn btn-success" th:href="@{/cliente/agendamento/chat/{id}(id=${agendamento.id})}">
+                                Chat <i class="bi bi-chat-dots-fill ms-2"></i>
+                            </a>
+                            </form>
+                        </td>
                     </tr>
                     <tr th:unless="${busca_agendamento}" th:each="agendamento : ${busca_agendamento}">
                         <td th:text="${agendamento.prestador.nome}"></td>
@@ -69,14 +76,19 @@
                         <td th:text="${agendamento.hora}"></td>
                         <td th:text="${agendamento.statusAgendamento.descricao}"></td>
                         <td>
-                            <button class="btn btn-danger" style="width: 8rem" th:disabled="${not agendamento.isCancelable()}" data-bs-toggle="modal" th:data-bs-target="'#cancelModal' + ${agendamento.id}">
+                            <button class="btn btn-danger" th:disabled="${not agendamento.isCancelable()}" data-bs-toggle="modal" th:data-bs-target="'#cancelModal' + ${agendamento.id}">
                                 Cancelar <i class="bi bi-x-square-fill ms-2"></i>
                             </button>
                         </td>
                         <td>
-                            <button class="btn btn-primary" style="width: 8rem" th:disabled="${not agendamento.isRealizable()}" data-bs-toggle="modal" th:data-bs-target="'#completeModal' + ${agendamento.id}">
+                            <button class="btn btn-primary" th:disabled="${not agendamento.isRealizable()}" data-bs-toggle="modal" th:data-bs-target="'#completeModal' + ${agendamento.id}">
                                 Concluir <i class="bi bi-check-square-fill ms-2"></i>
                             </button>
+                        </td>
+                        <td>
+                            <a class="btn btn-success" th:href="@{/cliente/agendamento/chat/{id}(id=${agendamento.id})}">
+                                Chat <i class="bi bi-chat-dots-fill ms-2"></i>
+                            </a>
                         </td>
                     </tr>
                     </tbody>
