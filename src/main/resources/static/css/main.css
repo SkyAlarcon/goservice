@@ -41,3 +41,28 @@
     padding-right: 60px;
     margin-left: 10px;
 }
+
+#mainContainer{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardsContainer{
+    width: 90rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    margin: 2rem 0;
+}
+
+.card{
+    height: 36rem;
+}
+
+.btn{
+    width: 100%;
+}
