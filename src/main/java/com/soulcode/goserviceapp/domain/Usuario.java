@@ -49,7 +49,6 @@ public class Usuario implements UserDetails {
         this.senha=senha;
         this.perfil=perfil;
         this.habilitado=habilitado;
-        this.endereco=endereco;
     }
 
     public Long getId() {
