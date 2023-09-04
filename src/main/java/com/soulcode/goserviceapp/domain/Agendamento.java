@@ -44,11 +44,13 @@ public class Agendamento implements Serializable{
     @Column(nullable = false)
     private LocalDateTime dataHoraRegistro;
 
+
     public Agendamento(){
         this.statusAgendamento = StatusAgendamento.AGUARDANDO_CONFIRMACAO;
     }
 
-    public Agendamento(Long id, Cliente cliente, Prestador prestador, Servico servico, StatusAgendamento statusAgendamento, LocalDate data, LocalTime hora, LocalDateTime dataHoraRegistro) {
+    public Agendamento(Long id, Cliente cliente, Prestador prestador, Servico servico, StatusAgendamento statusAgendamento, LocalDate data, LocalTime hora, LocalDateTime dataHoraRegistro
+    ) {
         this.id = id;
         this.cliente = cliente;
         this.prestador = prestador;

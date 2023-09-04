@@ -1,21 +1,12 @@
 package com.soulcode.goserviceapp.controller;
 
-import com.soulcode.goserviceapp.domain.Agendamento;
-import com.soulcode.goserviceapp.domain.Cliente;
-import com.soulcode.goserviceapp.domain.Prestador;
-import com.soulcode.goserviceapp.domain.Servico;
-import com.soulcode.goserviceapp.service.AgendamentoService;
-import com.soulcode.goserviceapp.service.ClienteService;
-import com.soulcode.goserviceapp.service.PrestadorService;
-import com.soulcode.goserviceapp.service.ServicoService;
+import com.soulcode.goserviceapp.domain.*;
+import com.soulcode.goserviceapp.service.*;
 import com.soulcode.goserviceapp.service.exceptions.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -38,6 +29,9 @@ public class ClienteController {
 
     @Autowired
     private AgendamentoService agendamentoService;
+
+    @Autowired
+    private MensagemService mensagemService;
 
     @GetMapping(value = "/dados")
     public ModelAndView dados(Authentication authentication) {
@@ -161,4 +155,45 @@ public class ClienteController {
         }
         return "redirect:/cliente/historico";
     }
+
+    @PostMapping(value = "/agendamento/chat")
+    public String chat(
+            @RequestParam(name = "conteudo") String conteudo,
+            @RequestParam(name = "remetenteId") String remententeId,
+            @RequestParam(name = "destinatarioId") String destinatarioId,
+            @RequestParam(name = "agendamentoId") String agendamentoId,
+            Authentication authentication,
+            RedirectAttributes attributes
+    ) {
+        try {
+            mensagemService.enviarMensagem(conteudo, Long.parseLong(remententeId), Long.parseLong(destinatarioId), Long.parseLong(agendamentoId));
+        } catch (UsuarioNaoAutenticadoException | UsuarioNaoEncontradoException ex) {
+            attributes.addFlashAttribute("errorMessage", ex.getMessage());
+        } catch (Exception ex) {
+            attributes.addFlashAttribute("errorMessage", "Erro ao enviar mensagem.");
+        }
+        return "redirect:/cliente/agendamento/chat/"+agendamentoId;
+    }
+
+    @GetMapping(value = "/agendamento/chat/{id}")
+    public ModelAndView chat(@PathVariable Long id) {
+        ModelAndView mv = new ModelAndView("chat");
+        try {
+            List<Mensagem> mensagens = mensagemService.findMensagens(id);
+            mv.addObject("mensagens", mensagens);
+            Agendamento agendamento = agendamentoService.findById(id);
+            mv.addObject("agendamento", agendamento);
+            Cliente cliente = agendamento.getCliente();
+            mv.addObject("usuario", cliente);
+            String tipoUsuario = "cliente";
+            mv.addObject("tipoUsuario", tipoUsuario);
+        } catch (UsuarioNaoAutenticadoException | UsuarioNaoEncontradoException ex) {
+            mv.addObject("errorMessage", ex.getMessage());
+        } catch (Exception ex) {
+            mv.addObject("errorMessage", "Erro ao carregar dados de agendamentos.");
+        }
+        return mv;
+    }
+
+
 }
