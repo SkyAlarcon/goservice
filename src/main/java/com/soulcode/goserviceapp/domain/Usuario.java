@@ -38,6 +38,9 @@ public class Usuario implements UserDetails {
     @OneToOne
     private Endereco endereco;
 
+    @Column
+    private String fotoUsuario;
+
     public Usuario(){
         this.habilitado =true;
     }
@@ -102,6 +105,14 @@ public class Usuario implements UserDetails {
     public Endereco getEndereco() { return endereco; }
 
     public void setEndereco(Endereco endereco) { this.endereco = endereco; }
+
+    public String getFotoUsuario() {
+        return fotoUsuario;
+    }
+
+    public void setFotoUsuario(String fotoUsuario) {
+        this.fotoUsuario = fotoUsuario;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
