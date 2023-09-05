@@ -46,6 +46,7 @@ public class AuthController {
             return "redirect:/auth/login";
         } catch (Exception ex) {
             attributes.addFlashAttribute("errorMessage", "Erro ao cadastrar novo cliente.");
+            System.err.println(ex.getMessage());
             return "redirect:/auth/cadastro";
         }
     }
