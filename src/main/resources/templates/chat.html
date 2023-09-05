@@ -1,0 +1,49 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" th:replace="fragments/layout :: layout(~{::title}, ~{::#content})">
+<head>
+    <title>Agenda | GoService</title>
+</head>
+<body>
+
+<div id="content" class="gx-1">
+    <div th:replace="fragments/header :: header"></div>
+
+    <div class="d-flex justify-content-around mt-3" th:if="${tipoUsuario} == 'cliente'">
+        <div class=""><h2 th:text="${agendamento.prestador.nome}"></h2></div>
+        <div class=""><h2 th:text="${agendamento.cliente.nome}"></h2></div>
+    </div>
+    <div class="d-flex justify-content-around mt-3" th:if="${tipoUsuario} != 'cliente'">
+        <div class=""><h2 th:text="${agendamento.cliente.nome}"></h2></div>
+        <div class=""><h2 th:text="${agendamento.prestador.nome}"></h2></div>
+    </div>
+    <div class="container my-4 d-flex flex-column w-75 overflow-auto" style="height: 50vh">
+            <div th:each="mensagem : ${mensagens}" th:text="${mensagem.conteudo}" th:class="'text-break fs-5 py-1 px-2 m-1 border border-dark rounded ' + (${usuario.equals(mensagem.remetente)}?'bg-primary align-self-end':'bg-success align-self-start')" style="max-width: 85%"></div>
+    </div>
+    <div class="m-2 d-flex justify-content-center w100" th:if="${tipoUsuario} == 'cliente'">
+        <form class="w-75 d-flex align-items-center justify-content-center" method="post" th:action="@{/cliente/agendamento/chat}">
+            <div class="w-100">
+                <input class="p-1 rounded w-100" type="text" maxlength="2000" id="conteudo" name="conteudo" required>
+                <input type="hidden" th:value="${agendamento.id}" id="agendamento" name="agendamentoId">
+                <input type="hidden" th:value="${agendamento.cliente.id}" id="remetente" name="remetenteId">
+                <input type="hidden" th:value="${agendamento.prestador.id}" id="destinatario" name="destinatarioId">
+            </div>
+            <button type="submit" class="btn btn-primary m-2 w-25">Enviar</button>
+        </form>
+    </div>
+    <div class="m-2 d-flex justify-content-center w100" th:if="not(${tipoUsuario} == 'cliente')" >
+        <form class="d-flex align-items-center justify-content-center w-75" method="post" th:action="@{/prestador/agendamento/chat}">
+            <div class="w-100">
+                <input class="p-1 rounded w-100" type="text" maxlength="2000" id="conteudo" name="conteudo" required>
+                <input type="hidden" th:value="${agendamento.id}" id="agendamento" name="agendamentoId">
+                <input type="hidden" th:value="${agendamento.prestador.id}" id="remetente" name="remetenteId">
+                <input type="hidden" th:value="${agendamento.cliente.id}" id="destinatario" name="destinatarioId">
+            </div>
+            <button type="submit" class="btn btn-primary m-2 w-25">Enviar</button>
+        </form>
+    </div>
+
+    <div th:replace="fragments/footer :: footer"></div>
+</div>
+
+</body>
+</html>
