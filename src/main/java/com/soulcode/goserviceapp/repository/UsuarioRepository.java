@@ -25,4 +25,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     @Query(value = "UPDATE usuarios u SET u.habilitado = ? WHERE u.id = ?", nativeQuery = true)
     void updateEnableById(boolean habilitado, Long id);
 
+    @Query(value = "SELECT endereco_id FROM usuarios WHERE id = ?", nativeQuery = true)
+    Long findIdEndByIdUsu(Long id);
+
 }

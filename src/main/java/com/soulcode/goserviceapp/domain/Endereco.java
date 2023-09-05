@@ -2,36 +2,36 @@ package com.soulcode.goserviceapp.domain;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 @Table(name = "enderecos")
-public class Endereco {
+public class Endereco implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 45)
+    @Column(length = 45)
     private String logradouro;
 
-    @Column(nullable = false, length = 10)
+    @Column(length = 10)
     private Integer numero;
 
     @Column(length = 20)
     private String complemento;
 
-    @Column(nullable = false, length = 35)
+    @Column(length = 35)
     private String cidade;
 
-    @Column(nullable = false, length = 40)
+    @Column(length = 40)
     private String uf;
 
     public Endereco() {
     }
 
-    public Endereco(Long id, String logradouro, Integer numero, String complemento, String cidade, String uf) {
-        this.id = id;
+    public Endereco(String logradouro, Integer numero, String complemento, String cidade, String uf) {
         this.logradouro = logradouro;
         this.numero = numero;
         this.complemento = complemento;
@@ -85,23 +85,5 @@ public class Endereco {
 
     public void setUf(String uf) {
         this.uf = uf;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Endereco endereco = (Endereco) o;
-        return Objects.equals(id, endereco.id) &&
-                Objects.equals(logradouro, endereco.logradouro) &&
-                Objects.equals(numero, endereco.numero) &&
-                Objects.equals(complemento, endereco.complemento) &&
-                Objects.equals(cidade, endereco.cidade) &&
-                Objects.equals(uf, endereco.uf);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, logradouro, numero, complemento, cidade, uf);
     }
 }
