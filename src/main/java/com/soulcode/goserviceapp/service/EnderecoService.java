@@ -28,11 +28,9 @@ public class EnderecoService {
 
     @Transactional
     public void updateEndereco(String logradouro, Integer numero, String complemento, String cidade, String uf, Long id, Endereco endereco){
-        System.err.println("deu erro logo no início");
         if(endereco != null) {
             enderecoRepository.updateEndById(logradouro, numero, complemento, cidade, uf, id);
         }else{
-            System.err.println("deu ruim no update :(");
             throw new RuntimeException("Endereço não encontrado");
         }
     }
