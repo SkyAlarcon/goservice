@@ -39,7 +39,8 @@ public class EnderecoController {
         ModelAndView mv = new ModelAndView("alterarEndereco");
         try{
             Usuario usuario = usuarioService.findAuthenticated(authentication);
-            Endereco endereco = enderecoRepository.findEnderecoById(usuario.getId());
+            Long enderecoUser = usuarioRepository.findIdEndByIdUsu(usuario.getId());
+            Endereco endereco = enderecoRepository.findEnderecoById(enderecoUser);
             mv.addObject("endereco", endereco);
             return mv;
         } catch (Exception ex) {

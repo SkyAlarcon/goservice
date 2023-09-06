@@ -26,44 +26,11 @@ public class EnderecoService {
         }
     }
 
-    public Cliente userToCliente(Usuario usuario){
-        return (Cliente) usuario;
-    }
-
-    public Prestador userToPrestador(Usuario usuario){
-        return (Prestador) usuario;
-    }
-
-    public Endereco updateUserCliente(Usuario usuario){
-        Cliente cliente = userToCliente(usuario);
-        return updateUsuer(cliente);
-    }
-
-    public Endereco updateUserPrestador(Usuario usuario){
-        Prestador prestador = userToPrestador(usuario);
-        return updateUsuer(prestador);
-    }
-
-    public Endereco updateUsuer(Usuario usuario){
-        if(usuario.getEndereco().getId() == null){
-            return enderecoRepository.save(usuario.getEndereco());
-        }else{
-            Optional<Endereco> endereco = enderecoRepository.findById(usuario.getEndereco().getId());
-            if (endereco.isPresent()){
-                return endereco.get();
-            }
-            throw new RuntimeException("Endereço não encontrado");
-        }
-
-    }
-
     @Transactional
     public void updateEndereco(String logradouro, Integer numero, String complemento, String cidade, String uf, Long id, Endereco endereco){
-        System.err.println("deu erro logo no início");
         if(endereco != null) {
             enderecoRepository.updateEndById(logradouro, numero, complemento, cidade, uf, id);
         }else{
-            System.err.println("deu ruim no update :(");
             throw new RuntimeException("Endereço não encontrado");
         }
     }

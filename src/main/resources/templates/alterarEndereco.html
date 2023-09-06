@@ -17,7 +17,6 @@
                 <div th:if="${successMessage != null}" th:text="${successMessage}" class="alert alert-success" role="alert"></div>
                 <div th:if="${errorMessage != null}" th:text="${errorMessage}" class="alert alert-danger" role="alert"></div>
 
-                <div th:if="${endereco}">
                     <form method="post" th:action="@{/endereco/new}">
                         <div class="mb-3">
                             <label for="logradouro" class="form-label">Logradouro<span class="text-danger">*</span></label>
@@ -43,35 +42,6 @@
                             <input type="text" class="form-control" id="uf" name="uf" th:field="*{endereco.uf}" required>
                             <div class="form-text"></div>
                         </div>
-                </div>
-
-                <div th:if="not ${endereco}">
-                    <form method="post" th:action="@{/endereco/new}">
-                        <div class="mb-3">
-                            <label for="logradouro" class="form-label">Logradouro<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="logradouro" name="logradouro"  required>
-                            <div class="form-text"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="numero" class="form-label">Número<span class="text-danger">*</span></label>
-                            <input type="number" class="form-control" id="numero" name="numero"  required>
-                            <div class="form-text"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="complemento" class="form-label">Complemento<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="complemento" name="complemento"  required>
-                            <div class="form-text"></div>
-                        </div>
-                        <div class="mb-3">
-                            <label for="cidade" class="form-label">Cidade<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="cidade" name="cidade"  required>
-                            <div class="form-text"></div>
-
-                            <label for="uf" class="form-label">UF<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="uf" name="uf" required>
-                            <div class="form-text"></div>
-                        </div>
-                </div>
 
                     <button type="submit" class="btn btn-primary">Alterar <i class="bi bi-pencil-fill ms-2"></i></button>
                 </form>
